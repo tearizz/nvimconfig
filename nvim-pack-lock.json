@@ -5,6 +5,11 @@
       "src": "https://github.com/Mofiqul/dracula.nvim",
       "version": "'main'"
     },
+    "gitsigns.nvim": {
+      "rev": "0a80125bace82d82847d40bc2c38a22d62c6dc2d",
+      "src": "https://github.com/lewis6991/gitsigns.nvim",
+      "version": "'main'"
+    },
     "lualine.nvim": {
       "rev": "47f91c416daef12db467145e16bed5bbfe00add8",
       "src": "https://github.com/nvim-lualine/lualine.nvim",

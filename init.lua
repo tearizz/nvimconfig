@@ -1,5 +1,3 @@
--- Use <Space> as a leaaer key
--- 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.o.number = true
@@ -32,42 +30,36 @@ vim.g.loaded_netrw=1
 vim.g.loaded_netrwPlugin=1
 
 
--- ==           KEYMAPS              == --
-
--- 段落插入
+-- KeyMaps
 vim.keymap.set({'n', 'x'}, '<leader>v', '<C-v>')
--- Copy/paste using system clipboard
-vim.keymap.set({'n', 'x'}, 'gy', '"+y')
-vim.keymap.set({'n', 'x'}, 'gp', '"+p')
-
--- Exit Neovim
-vim.keymap.set('n', '<leader>q', '<cmd>quitall<cr>')
+vim.keymap.set('n', '<leader>q', '<cmd>quitall<cr>')    -- leave file
 vim.keymap.set('n', '<leader>Q', '<cmd>quitall!<cr>')
+vim.keymap.set('n', '<leader>w', '<cmd>write<cr>')      -- save file
 
--- Save file
-vim.keymap.set('n', '<leader>w', '<cmd>write<cr>')
-
--- enable diagnostics for inlay hints and stuff
+-- Diagnostic
 vim.diagnostic.config({
   virtual_text = {
+    spacing = 2,
     source = 'if_many',
   },
+  signs = true,
+  underline = true,
+  update_in_insert = true,
+  severity_sort = true,
   float = {
     severity_sort = true,
     focusable = true,
+    border = 'rounded',
+    source = true,
   },
-  underline = true,
-  signs = true,
-  update_in_insert = true,
 })
 
--- ===========
---   Vim.Pack
--- ===========
--- Default Dir: `.local/share/nvim/site/pack/core/opt`
 
--- == Theme ==
--- Dracula
+-- Plugins
+-- Vim.pack 
+-- .local/share/nvim/site/pack/core/opt
+-------------------------------------------------------
+-- Theme
 vim.pack.add({
   {
     src="https://github.com/Mofiqul/dracula.nvim",
@@ -89,7 +81,7 @@ if not ok_theme then
   vim.cmd('colorscheme defaulat')
 end
 
--- == Treesitter ==
+-- Treesitter
 vim.pack.add({
   {
     src="https://github.com/nvim-treesitter/nvim-treesitter.git",
@@ -111,7 +103,7 @@ require("nvim-treesitter.configs").setup({
   },
 })
 
--- == Mason ==
+-- Mason
 vim.pack.add({
   {
     src="https://github.com/mason-org/mason.nvim",
@@ -128,11 +120,14 @@ require("mason").setup({
     }
 })
 
+-- Nvim-lspconfig
 vim.pack.add{
   { src = 'https://github.com/neovim/nvim-lspconfig' },
 }
+-- Load lsp runtime
+vim.cmd.packadd('nvim-lspconfig')
+
 vim.lsp.config['lua_ls']={
-  --root_dir=vim.fn.getcwd(),
   settings={
     Lua={diagnostics={globals={"vim"}}}
   }
@@ -142,7 +137,7 @@ vim.lsp.enable('lua_ls')
 vim.lsp.config['pyright'] = {
   cmd = { 'pyright-langserver', '--stdio' },
   filetypes = { 'python' },
-  root_marker = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', 'pyrightconfig.json', '.git' },
+  root_markers = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', 'pyrightconfig.json', '.git' },
   settings = {
     python = {
       analysis = {
@@ -156,6 +151,7 @@ vim.lsp.config['pyright'] = {
 }
 vim.lsp.enable('pyright')
 
+-- need shellcheck by mason
 vim.lsp.config['bashls'] = {
   cmd = { 'bash-language-server', 'start' },
   filetypes = { 'sh', 'bash', 'zsh' },
@@ -201,6 +197,7 @@ vim.lsp.config('*',{
 ]]--
 
 
+-- Nvim-tree
 vim.pack.add({
     {
         src = "https://github.com/nvim-tree/nvim-tree.lua",
@@ -237,9 +234,7 @@ require('nvim-tree').setup({
         custom = {"node_modules", ".git"}
     }
 })
-
 local tree = require('nvim-tree.api').tree
-
 vim.keymap.set('n', '<leader>e', function()
   if tree.is_visible() then
     local tree_win = tree.winid()
@@ -253,9 +248,9 @@ vim.keymap.set('n', '<leader>e', function()
   end
 end, { desc = "Toggle or focus file tree" })
 
--- == Lualine ==
+-- Lualine
 vim.pack.add({
-    { 
+    {
         src = "https://github.com/nvim-lualine/lualine.nvim",
         version = "master"
     }
@@ -266,6 +261,7 @@ require('lualine').setup({
     }
 })
 
+-- Telescope
 vim.pack.add({
     {
         src = "https://github.com/nvim-telescope/telescope.nvim",
@@ -275,9 +271,7 @@ vim.pack.add({
         src = "https://github.com/nvim-lua/plenary.nvim",
         version = "master"
     },
-    
     {
-        
         src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim",
         version = "master"
     }
@@ -286,10 +280,10 @@ vim.pack.add({
 require('telescope').setup({
   extensions = {
     fzf = {
-      fuzzy = true,                    -- 启用模糊匹配
-      override_generic_sorter = true,  -- 覆盖通用排序器
-      override_file_sorter = true,     -- 覆盖文件排序器
-      case_mode = "smart_case",        -- 智能大小写
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = "smart_case",
     }
   }
 })
@@ -303,6 +297,58 @@ local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
 -- Install ripgrep first: sudo apt install ripgrep
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>fs', builtin.grep_string, { desc = 'Telescope grep string' })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 
+
+vim.pack.add({
+    {
+        src="https://github.com/lewis6991/gitsigns.nvim",
+        version="main"
+    }
+})
+
+require('gitsigns').setup({
+  signs = {
+    add          = { text = '│' },
+    change       = { text = '│' },
+    delete       = { text = '│' },
+    topdelete    = { text = 'x ' }, -- 文件顶部的删除会显示在第一行
+    changedelete = { text = '~ ' }, -- 同一个hunk内，既有被删除的行，也有被替换的行
+    untracked    = { text = '┆' },
+  },
+  numhl = false,
+  -- blame infovim.keymap.set
+  current_line_blame = false,
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = 'eol',
+    delay = 500,
+    ignore_whitespace = false,
+  },
+  --
+  update_debounce = 100,
+  max_file_length = 40000,
+  preview_config = {
+    border = 'single',  -- preview blame style
+  },
+
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+
+    local function map(mode, lhs, rhs, desc)
+      vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+    end
+
+    -- show diff
+    map('n', '<leader>hw', gs.preview_hunk, 'Preview Hunk') -- show diff in a small window
+    map('n', '<leader>hf', gs.diffthis, 'Diff This')    -- show diff in new file
+    map('n', '<leader>hs', gs.toggle_deleted, 'Toggle Deleted') -- show diff on screen
+
+    -- show blame
+    map('n', '<leader>bw', function() gs.blame_line({ full = true }) end, 'Blame Line')
+    map('n', '<leader>bf', gs.blame, 'Blame Buffer')
+    map('n', '<leader>bl', gs.toggle_current_line_blame, 'Toggle Line Blame')   -- 在行后显示blame
+  end,
+})
