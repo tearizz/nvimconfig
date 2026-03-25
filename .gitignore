@@ -1,1 +1,6 @@
 nvim-pack-lock.json
+
+# If some file is already tracked, First stop tracked it.
+# git rm --cached <file>
+# git add .
+# git commit -m "Stop tracking <file>"
