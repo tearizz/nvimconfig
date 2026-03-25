@@ -1,6 +1,7 @@
 require('core.options')
 require('core.keymaps')
 require('core.diagnostic')
+require('core.lsp_keymaps')
 
 require('plugins.theme')
 require('plugins.treesitter')

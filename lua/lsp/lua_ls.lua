@@ -1,5 +1,5 @@
 vim.lsp.config['lua_ls']={
-    --on_attach = on_attach,
+    cmd = { "lua-language-server"}, -- Language Server Name
     settings={
         Lua={diagnostics={globals={"vim"}}},
     },
