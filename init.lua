@@ -9,6 +9,7 @@ require('plugins.nvimtree')
 require('plugins.lualine')
 require('plugins.telescope')
 require('plugins.gitsigns')
+require('plugins.nvim_cmp')
 
 require('lsp.mason')
 require('lsp.nvim-lspconfig')
