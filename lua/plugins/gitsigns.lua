@@ -38,8 +38,8 @@ require('gitsigns').setup({
     end
 
     -- show diff
-    map('n', '<leader>hw', gs.preview_hunk, 'Preview Hunk') -- show diff in a small window
-    map('n', '<leader>hf', gs.diffthis, 'Diff This')    -- show diff in new file
+    map('n', '<leader>hp', gs.preview_hunk, 'Preview Hunk') -- show diff in a small window
+    map('n', '<leader>hd', gs.diffthis, 'Diff This')    -- show diff in new file
     map('n', '<leader>hs', gs.toggle_deleted, 'Toggle Deleted') -- show diff on screen
 
     -- show blame
