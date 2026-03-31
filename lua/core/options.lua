@@ -23,8 +23,6 @@ vim.g.netrw_liststyle = 0
 
 vim.o.ambiwidth = 'double'
 vim.o.termguicolors = true
-vim.g.terminal_emulator = 'vterm'
-vim.cmd [[set guicursor=]]
 
 vim.g.loaded_netrw=1
 vim.g.loaded_netrwPlugin=1
